@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Verification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Keep your existing styles */
+    </style>
+</head>
+
+<body class="min-h-screen bg-gray-900 flex items-center justify-center">
+    <div class="max-w-md w-full px-4">
+        <div class="bg-gray-800 rounded-xl shadow-2xl p-8">
+            <h1 class="text-2xl font-bold text-center mb-6 text-blue-400">
+                <i class="fas fa-id-card mr-2"></i>Staff Verification
+            </h1>
+            
+            <div id="reader" class="w-72 h-72 mx-auto mb-6 border-4 border-blue-400 rounded-lg"></div>
+            
+            <div id="result" class="hidden transition-all duration-300">
+                <div class="p-4 rounded-lg bg-gray-700">
+                    <div id="success-message" class="hidden">
+                        <div class="flex items-center text-green-400 mb-3">
+                            <i class="fas fa-check-circle mr-2 text-xl"></i>
+                            <h2 class="font-semibold text-lg">Verified Successfully</h2>
+                        </div>
+                        <div class="space-y-2">
+                            <p class="font-mono"><span class="font-bold">Name:</span> <span id="staff-name"></span></p>
+                            <p class="font-mono"><span class="font-bold">ID:</span> <span id="staff-id"></span></p>
+                            <p class="font-mono"><span class="font-bold">Department:</span> <span id="department"></span></p>
+                            <p class="font-mono"><span class="font-bold">Email:</span> <span id="email"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div id="error-message" class="hidden items-center text-red-400">
+                        <i class="fas fa-times-circle mr-2 text-xl"></i>
+                        <span id="error-text"></span>
+                    </div>
+                </div>
+                
+                <button onclick="window.location.reload()" 
+                    class="mt-4 w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+                    <i class="fas fa-redo mr-2"></i>Scan Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/html5-qrcode" defer></script>
+    <script>
+        let scanner = null;
+
+        const onScanSuccess = async (decodedText) => {
+            try {
+                // Hide previous results
+                document.getElementById('result').classList.add('hidden');
+                
+                // Parse QR data
+                const qrData = JSON.parse(decodedText);
+                
+                // Verify with server
+                const response = await fetch('http://localhost:5500/verify', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ staffId: qrData.staffId })
+                });
+
+                const { data, error } = await response.json();
+                
+                if (response.ok) {
+                    // Update success UI
+                    document.getElementById('staff-name').textContent = data.name;
+                    document.getElementById('staff-id').textContent = data.staffId;
+                    document.getElementById('department').textContent = data.department;
+                    document.getElementById('email').textContent = data.email;
+                    
+                    document.getElementById('success-message').classList.remove('hidden');
+                    document.getElementById('error-message').classList.add('hidden');
+                    document.getElementById('result').classList.remove('hidden');
+                } else {
+                    // Show error message
+                    document.getElementById('error-text').textContent = error;
+                    document.getElementById('success-message').classList.add('hidden');
+                    document.getElementById('error-message').classList.remove('hidden');
+                    document.getElementById('result').classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('Verification error:', error);
+                document.getElementById('error-text').textContent = 'Invalid QR Code Format';
+                document.getElementById('success-message').classList.add('hidden');
+                document.getElementById('error-message').classList.remove('hidden');
+                document.getElementById('result').classList.remove('hidden');
+            }
+        };
+
+        // Initialize QR Scanner after the library is loaded
+        window.addEventListener('load', () => {
+            Html5Qrcode.getCameras().then(devices => {
+                if (devices.length === 0) {
+                    document.getElementById('error-text').textContent = 'No cameras found';
+                    document.getElementById('result').classList.remove('hidden');
+                    return;
+                }
+
+                scanner = new Html5Qrcode("reader");
+                const cameraId = devices.find(d => d.label.includes('back'))?.id || devices[0].id;
+                
+                scanner.start(
+                    cameraId,
+                    { fps: 10, qrbox: 250 },
+                    onScanSuccess,
+                    error => console.error('QR Scanner Error:', error)
+                ).catch(err => {
+                    document.getElementById('error-text').textContent = 'Camera access denied';
+                    document.getElementById('result').classList.remove('hidden');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

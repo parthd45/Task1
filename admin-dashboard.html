@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+        }
+
+        .nav {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-container {
+            background-color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .th, .td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .th {
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #333;
+        }
+
+        .tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .profile-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #ddd;
+        }
+
+    </style>
+</head>
+
+<body class="p-4">
+
+    <nav class="nav text-white p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-semibold tracking-wide">Admin Dashboard</h1>
+            <a href="admin-login.html" class="bg-white text-blue-600 px-4 py-2 rounded-full hover:bg-blue-100 transition-colors duration-200">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container mx-auto table-container">
+        <h2 class="text-2xl font-semibold mb-6 p-6 text-gray-800 tracking-wide">Staff List</h2>
+
+        <div class="overflow-x-auto">
+            <table id="staffTable" class="min-w-full">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="th">ID</th>
+                        <th class="th">Name</th>
+                        <th class="th">Email</th>
+                        <th class="th">Department</th>
+                        <th class="th">Staff ID</th>
+                        <th class="th text-center">Profile</th>
+                    </tr>
+                </thead>
+                <tbody id="staffList"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        async function fetchStaffData() {
+            try {
+                console.log('Fetching staff data...'); // Debugging line
+                const response = await fetch('http://localhost:5500/admin/dashboard', {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                console.log('Staff data received:', data); // Debugging line
+
+                const staffList = document.getElementById('staffList');
+
+                if (data.length > 0) {
+                    staffList.innerHTML = ''; // Clear previous data
+                    data.forEach((staff, index) => {
+                        staffList.innerHTML += `
+                            <tr class="border-b">
+                                <td class="td">${staff.id}</td>
+                                <td class="td">${staff.name}</td>
+                                <td class="td">${staff.email}</td>
+                                <td class="td">${staff.department}</td>
+                                <td class="td">${staff.staff_id}</td>
+                                <td class="td text-center">
+                                    <img src="http://localhost:5500${staff.profile_pic}" 
+                                         alt="Profile Pic" class="profile-img">
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    staffList.innerHTML = `<tr><td colspan="6" class="td text-center text-red-600">No staff data found!</td></tr>`;
+                }
+            } catch (error) {
+                console.error('❌ Error fetching staff data:', error);
+                const staffList = document.getElementById('staffList');
+                staffList.innerHTML = `<tr><td colspan="6" class="td text-center text-red-600">Failed to load data.</td></tr>`;
+            }
+        }
+
+        fetchStaffData(); // Load data immediately
+    </script>
+</body>
+</html>

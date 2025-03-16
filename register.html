@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Staff Registration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen font-sans text-gray-200">
+    <div class="bg-gray-800 p-8 rounded shadow-lg w-96 border border-gray-700">
+        <div class="flex justify-between mb-4">
+            <a href="index.html" class="text-gray-400 hover:text-white font-medium transition">
+                <span class="material-icons align-middle mr-1">home</span>
+                Home
+            </a>
+            <a href="index.html" class="text-gray-400 hover:text-white font-medium transition">
+                <span class="material-icons align-middle mr-1">login</span>
+                Login
+            </a>
+        </div>
+
+        <h1 class="text-3xl font-extrabold mb-6 text-center text-white tracking-wide">
+            <span class="material-icons align-middle mr-2">person_add</span>
+            Staff Registration
+        </h1>
+
+        <form id="registerForm" enctype="multipart/form-data" class="space-y-5">
+            <div>
+                <label class="block text-gray-300 text-sm font-bold mb-2" for="name">Full Name:</label>
+                <input type="text" name="name" id="name" placeholder="John Doe" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-bold mb-2" for="staffId">Staff ID:</label>
+                <input type="text" name="staffId" id="staffId" placeholder="STAFF123" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-bold mb-2" for="department">Department:</label>
+                <input type="text" name="department" id="department" placeholder="Engineering" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-bold mb-2" for="email">Email:</label>
+                <input type="email" name="email" id="email" placeholder="john.doe@example.com" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
+            </div>
+            <div>
+                <label class="block text-gray-300 text-sm font-bold mb-2" for="profilePic">Profile Picture:</label>
+                <input type="file" name="profilePic" id="profilePic" accept="image/*" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline bg-gray-700 text-white border-gray-600">
+            </div>
+
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-200 w-full">
+                    <span class="material-icons align-middle mr-2">save</span>
+                    Register Now
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="index.html" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">
+                Back to Login
+            </a>
+        </div>
+
+        <div class="mt-6 text-center text-gray-400">
+            <p>Already have an account? <a href="index.html" class="text-blue-500 hover:text-blue-800">Login here</a></p>
+        </div>
+
+        <div class="mt-4 text-center">
+            <p class="text-gray-400">Need help? <a href="mailto:support@example.com" class="text-blue-500 hover:text-blue-800">Contact Support</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            try {
+                const response = await fetch('http://localhost:5500/register', {
+                    method: 'POST',
+                    body: new FormData(e.target)
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Registration failed');
+                }
+
+                window.location.href = data.redirectUrl;
+            } catch (error) {
+                alert(error.message);
+                console.error('Registration Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

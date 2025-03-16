@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Portal | Landing Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body class="bg-gray-900 text-gray-200 font-sans">
+
+    <!-- ✅ Navbar -->
+    <nav class="bg-black shadow-lg p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold text-white tracking-wide">🚀 Staff Portal</h1>
+            <div class="space-x-4 flex items-center">
+                <a href="index.html" class="text-gray-400 hover:text-white font-medium px-4 transition flex items-center">
+                    <span class="material-icons mr-1">login</span> <span>Login</span>
+                </a>
+                <a href="register.html" class="bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white py-2 px-4 rounded-lg transition flex items-center shadow-md">
+                    <span class="material-icons mr-1">person_add</span> <span>Register</span>
+                </a>
+                <!-- ✅ Admin Button Restored -->
+                <a href="admin-login.html" class="text-red-400 hover:text-red-600 font-medium px-4 transition flex items-center">
+                    <span class="material-icons mr-1">admin_panel_settings</span> <span>Admin</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ✅ Hero Section -->
+    <section class="bg-gradient-to-r from-gray-800 to-black text-white text-center py-20">
+        <div class="container mx-auto">
+            <h1 class="text-5xl font-extrabold mb-4">Empower Your Workforce 🚀</h1>
+            <p class="text-lg mb-6">Register and verify staff members effortlessly with our smart, secure platform.</p>
+            <a href="register.html" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg mr-2 transition shadow-lg">Get Started</a>
+        </div>
+    </section>
+
+    <!-- ✅ Features Section -->
+    <section class="py-10 bg-gray-800">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6 text-white">Key Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 px-4">
+
+                <!-- Feature 1 -->
+                <div class="p-6 bg-gray-900 rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
+                    <span class="material-icons text-4xl text-blue-500 mb-4">how_to_reg</span>
+                    <h3 class="font-semibold text-xl text-gray-300 mb-2">Effortless Registration</h3>
+                    <p class="text-gray-400">Streamline the staff registration process with a user-friendly interface.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-6 bg-gray-900 rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
+                    <span class="material-icons text-4xl text-green-500 mb-4">verified_user</span>
+                    <h3 class="font-semibold text-xl text-gray-300 mb-2">Secure Verification</h3>
+                    <p class="text-gray-400">Ensure the authenticity of your staff with our robust verification system.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-6 bg-gray-900 rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
+                    <span class="material-icons text-4xl text-yellow-500 mb-4">dashboard</span>
+                    <h3 class="font-semibold text-xl text-gray-300 mb-2">Centralized Dashboard</h3>
+                    <p class="text-gray-400">Manage all staff-related information from a single, intuitive dashboard.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="p-6 bg-gray-900 rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
+                    <span class="material-icons text-4xl text-purple-500 mb-4">group</span>
+                    <h3 class="font-semibold text-xl text-gray-300 mb-2">Team Management</h3>
+                    <p class="text-gray-400">Organize staff into teams and manage permissions efficiently.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="p-6 bg-gray-900 rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
+                    <span class="material-icons text-4xl text-red-500 mb-4">lock</span>
+                    <h3 class="font-semibold text-xl text-gray-300 mb-2">Access Control</h3>
+                    <p class="text-gray-400">Control access to sensitive information with role-based permissions.</p>
+                </div>
+
+                 <!-- Feature 6 -->
+                 <div class="p-6 bg-gray-900 rounded-lg shadow-md hover:shadow-lg transition-transform transform hover:-translate-y-1">
+                    <span class="material-icons text-4xl text-teal-500 mb-4">settings</span>
+                    <h3 class="font-semibold text-xl text-gray-300 mb-2">Customizable Settings</h3>
+                    <p class="text-gray-400">Tailor the platform to your specific needs with customizable settings.</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ✅ Call to Action Section -->
+    <section class="py-16 bg-gradient-to-r from-black to-gray-800 text-white text-center">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold mb-6">Ready to Transform Your Staff Management?</h2>
+            <p class="text-lg mb-8">Join hundreds of businesses already simplifying their staff verification process.</p>
+            <a href="register.html" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-8 rounded-lg transition shadow-lg">Sign Up Now</a>
+        </div>
+    </section>
+
+    <!-- ✅ Footer -->
+    <footer class="bg-gray-900 text-gray-500 text-center py-6">
+        <p>&copy; 2025 Staff Portal. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
